@@ -1,0 +1,22 @@
+version: "3"
+
+# All available services
+services:
+
+  # Object Store
+  minio:
+    container_name: "data-engineering-platform-minio"
+    restart: "always"
+    image: minio/minio
+    env_file:
+      - ./config/env/minio.env
+    volumes:
+      - minio_volume:/data
+    ports:
+      - 9090:9000  # web service
+      - 9001:9001  # console
+    command: server /data --console-address ":9001"
+
+# Volumes to persist data
+volumes:
+  minio_volume:
